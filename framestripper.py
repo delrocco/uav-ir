@@ -222,7 +222,12 @@ def process():
         ffmpegOptions += ' -r ' + str(gSTUFF.args.frate)
     #if gSTUFF.args.fcount:
     ffmpegOptions += ' -f image2'
-    ffmpegOptions += ' "' + gSTUFF.framespath + '/frame-%04d.jpg"'
+    ffmpegOptions += ' "' + gSTUFF.framespath + '/frame-%04d.'
+    if gSTUFF.args.ext:
+        ffmpegOptions += gSTUFF.args.ext
+    else:
+        ffmpegOptions += 'jpg'
+    ffmpegOptions += '"'
 
     # run ffmpeg
     ff = ffmpy.FFmpeg(inputs={gSTUFF.args.input: ffmpegOptions})
@@ -325,6 +330,7 @@ def main():
     parser.add_argument('-c', '--clean', dest='clean', action='store_true', help='remove log and output files')
     parser.add_argument('-r', '--frate', dest='frate', type=float, help='number of frames per second (0.1-1000)')
     parser.add_argument('-n', '--fcount', dest='fcount', type=int, help='number of frames for whole video (1-1000000)')
+    parser.add_argument('-x', '--ext', dest='ext', type=str, help='extension of output (jpg, png, tiff, etc.)')
     gSTUFF.args = parser.parse_args()
 
     # must specify an input video file to process

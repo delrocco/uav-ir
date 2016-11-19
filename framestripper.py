@@ -30,7 +30,7 @@ class FrameStripper(object):
         size_actual = output[0].split('\n')
 
         # output folder
-        framespath = os.path.join(os.path.dirname(self.args.input), "frames")
+        framespath = os.path.join(os.path.dirname(self.args.input), os.path.splitext(os.path.basename(self.args.input))[0])
         if self.args.size:
             size_requested = self.args.size.split('x')
             if size_requested[0] == "-1":
@@ -38,6 +38,8 @@ class FrameStripper(object):
             elif size_requested[1] == "-1":
                 size_requested[1] = str(int(size_requested[0]) * int(size_actual[1]) / int(size_actual[0]))
             framespath += '_' + size_requested[0] + 'x' + size_requested[1]
+        else:
+            framespath += '_' + size_actual[0] + 'x' + size_actual[1]
 
         # create/clean folder for frames
         if not os.path.exists(framespath):

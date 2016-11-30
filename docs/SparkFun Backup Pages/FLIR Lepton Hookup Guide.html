@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- mobile mode if small screen device -->
+    
+    <title>FLIR Lepton Hookup Guide - learn.sparkfun.com</title>
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link href="FLIR%20Lepton%20Hookup%20Guide_files/bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" href="FLIR%20Lepton%20Hookup%20Guide_files/theme.css" type="text/css" media="screen">    <link rel="alternate" type="application/atom+xml" title="Education Blog" href="https://learn.sparkfun.com/feeds/blog">
+    <link rel="alternate" type="application/atom+xml" title="Tutorials" href="https://learn.sparkfun.com/feeds/tutorials">
+    <link rel="alternate" type="application/atom+xml" title="Education Blog Comments" href="https://learn.sparkfun.com/feeds/blog_comments">
+    <link rel="alternate" type="application/atom+xml" title="Tutorial Comments" href="https://learn.sparkfun.com/feeds/tutorial_comments">
+
+    <script type="text/javascript">
+          var SFECONFIG = {
+      currencies: {"USD":{"code":"USD","title":"US Dollar","symbol_left":"$","symbol_right":"","decimal_point":".","thousands_point":",","decimal_places":"2","value":"1.0000"},"CAD":{"code":"CAD","title":"Canadian Dollar","symbol_left":"$","symbol_right":" CAD","decimal_point":".","thousands_point":",","decimal_places":"2","value":"1.3345"},"AUD":{"code":"AUD","title":"Australian Dollar","symbol_left":"$","symbol_right":" AUD","decimal_point":".","thousands_point":",","decimal_places":"2","value":"1.3823"},"GBP":{"code":"GBP","title":"British Pound","symbol_left":"&pound;","symbol_right":"","decimal_point":".","thousands_point":",","decimal_places":"2","value":"0.6645"},"EUR":{"code":"EUR","title":"Euro","symbol_left":"&euro;","symbol_right":"","decimal_point":".","thousands_point":",","decimal_places":"2","value":"0.9467"}},
+      dnt: true,
+      preferred_currency: 'USD',
+        http_server: 'http://www.sparkfun.com',
+        https_server: 'https://www.sparkfun.com',
+        http_static: 'https://cdn.sparkfun.com',
+        learn_server: 'https://learn.sparkfun.com',
+        commerce_server: 'https://www.sparkfun.com',
+        base_url: '/',
+        url: '/',
+        controller: 'tutorials',
+        action: 'view',
+        entity_id: '',
+        auth: false,
+        sparkrev: '1480453750',
+        search_key: 'xY6qr5Ui3V2UMA762D9Z'      };
+      var require = {
+        paths: {
+          'jqueryui': 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min'
+        },
+        baseUrl: '/js/',
+        urlArgs: "sparkrev=" + SFECONFIG.sparkrev,
+        deps: ['jqueryui'],
+        callback: function() {
+          $('#learn').learn();
+          $('#learn').sfeutil();
+          $.shared('domready');
+        }
+      };
+    </script>
+    <script src="FLIR%20Lepton%20Hookup%20Guide_files/learn-built.js"></script>
+      <script src="FLIR%20Lepton%20Hookup%20Guide_files/jquery-ui.js" data-requiremodule="jqueryui" data-requirecontext="_" async="" charset="utf-8" type="text/javascript"></script><script src="FLIR%20Lepton%20Hookup%20Guide_files/tutorial.js" data-requiremodule="tutorial" data-requirecontext="_" async="" charset="utf-8" type="text/javascript"></script><script src="FLIR%20Lepton%20Hookup%20Guide_files/jquery.js" data-requiremodule="jquery.imagesloaded" data-requirecontext="_" async="" charset="utf-8" type="text/javascript"></script><style type="text/css">.pika-single{z-index:9999;display:block;position:relative;color:#333;background:#fff;border:1px solid #ccc;border-bottom-color:#bbb;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif}.pika-single.is-hidden{display:none}.pika-single.is-bound{position:absolute;box-shadow:0 5px 15px -5px rgba(0,0,0,0.5)}.pika-single{*zoom:1}.pika-single:before,.pika-single:after{content:" ";display:table}.pika-single:after{clear:both}.pika-lendar{float:left;width:240px;margin:8px}.pika-title{position:relative;text-align:center}.pika-title select{cursor:pointer;position:absolute;z-index:9998;margin:0;left:0;top:5px;filter:alpha(opacity=0);opacity:0}.pika-label{display:inline-block;*display:inline;position:relative;z-index:9999;overflow:hidden;margin:0;padding:5px 3px;font-size:14px;line-height:20px;font-weight:bold;background-color:#fff}.pika-prev,.pika-next{display:block;cursor:pointer;position:relative;outline:none;border:0;padding:0;width:20px;height:30px;text-indent:20px;white-space:nowrap;overflow:hidden;background-color:transparent;background-position:center center;background-repeat:no-repeat;background-size:75% 75%;opacity:0.5;*position:absolute;*top:0}.pika-prev:hover,.pika-next:hover{opacity:1}.pika-prev.is-disabled,.pika-next.is-disabled{cursor:default;opacity:0.2}.pika-prev,.is-rtl .pika-next{float:left;background-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAeCAYAAAAsEj5rAAAAUklEQVR42u3VMQoAIBADQf8Pgj+OD9hG2CtONJB2ymQkKe0HbwAP0xucDiQWARITIDEBEnMgMQ8S8+AqBIl6kKgHiXqQqAeJepBo/z38J/U0uAHlaBkBl9I4GwAAAABJRU5ErkJggg==");*left:0}.pika-next,.is-rtl .pika-prev{float:right;background-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAeCAYAAAAsEj5rAAAAU0lEQVR42u3VOwoAMAgE0dwfAnNjU26bYkBCFGwfiL9VVWoO+BJ4Gf3gtsEKKoFBNTCoCAYVwaAiGNQGMUHMkjGbgjk2mIONuXo0nC8XnCf1JXgArVIZAQh5TKYAAAAASUVORK5CYII=");*right:0}.pika-select{display:inline-block;*display:inline}.pika-table{width:100%;border-collapse:collapse;border-spacing:0;border:0}.pika-table th,.pika-table td{width:14.28571%;padding:0}.pika-table th{color:#999;font-size:12px;line-height:25px;font-weight:bold;text-align:center}.pika-table abbr{border-bottom:none;cursor:help}.pika-button{cursor:pointer;display:block;-moz-box-sizing:border-box;box-sizing:border-box;outline:none;border:0;margin:0;width:100%;padding:5px;color:#666;font-size:12px;line-height:15px;text-align:right;background:#f5f5f5}.is-today .pika-button{color:#3af;font-weight:bold}.is-selected .pika-button{color:#fff;font-weight:bold;background:#3af;box-shadow:inset 0 1px 3px #178fe5;border-radius:3px}.is-disabled .pika-button{pointer-events:none;cursor:default;color:#999;opacity:0.3}.pika-button:hover{color:#fff !important;background:#ff8000 !important;box-shadow:none !important;border-radius:3px !important}.pika-week{font-size:11px;color:#999}.hs-form fieldset{border:0;padding:0;margin:0;max-width:500px}.hs-form fieldset.form-columns-1 .hs-input{width:95%}.hs-form fieldset.form-columns-1 .input{margin-right:8px}.hs-form fieldset.form-columns-1 input[type="checkbox"],.hs-form fieldset.form-columns-1 input[type="radio"]{width:auto}.hs-form fieldset.form-columns-2 .hs-form-field{width:50%;float:left}.hs-form fieldset.form-columns-2 .input{margin-right:8px}.hs-form fieldset.form-columns-3 .hs-form-field{width:32.7%;float:left}.hs-form fieldset.form-columns-3 .input{margin-right:8px}.hs-form label.hs-hidden{visibility:hidden}.hsformerror{margin:0 0 2px;padding:2px 6px;height:auto;background-color:#fdd2d0;font-size:11px;border:1px solid #fcb3af;padding:4px 16px 4px 10px;color:#000;display:none;background-image:-webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #fefefe), color-stop(100%, #fdd2d0));background-image:-webkit-linear-gradient(#fefefe, #fdd2d0);background-image:-moz-linear-gradient(#fefefe, #fdd2d0);background-image:-o-linear-gradient(#fefefe, #fdd2d0);background-image:linear-gradient(#fefefe,#fdd2d0);-webkit-border-radius:4px;-moz-border-radius:4px;-ms-border-radius:4px;-o-border-radius:4px;border-radius:4px;-webkit-box-shadow:0 0 6px #ddd;-moz-box-shadow:0 0 6px #ddd;box-shadow:0 0 6px #ddd;z-index:99999}.hsformerror em{border:10px solid;border-color:#fdd2d0 transparent transparent;bottom:-17px;display:block;height:0;left:60px;position:absolute;width:0}.hsformerror p{font-family:Lucida Grande,Lucida Sans Unicode,bitstream vera sans,trebuchet ms,verdana,sans-serif;margin:0;float:left;margin-right:8px}.hsformerror:hover{cursor:default}.hsformerror .close-form-error{float:right;display:inline;top:3px;position:absolute;font-family:Verdana !important;color:#b17c79 !important;cursor:pointer !important;font-size:11px !important;font-weight:normal !important}.hsformerror .close-form-error:hover{color:#cc8884}@media (max-width: 400px), (min-device-width: 320px) and (max-device-width: 480px){form.hs-form .form-columns-2 .hs-form-field,form.hs-form .form-columns-3 .hs-form-field{float:none;width:100%}form.hs-form .form-columns-2 .hs-form-field .hs-input,form.hs-form .form-columns-3 .hs-form-field .hs-input{width:95%}}</style><script src="FLIR%20Lepton%20Hookup%20Guide_files/rainbow.js" data-requiremodule="rainbow" data-requirecontext="_" async="" charset="utf-8" type="text/javascript"></script><script src="FLIR%20Lepton%20Hookup%20Guide_files/generic.js" data-requiremodule="generic" data-requirecontext="_" async="" charset="utf-8" type="text/javascript"></script><script src="FLIR%20Lepton%20Hookup%20Guide_files/c.js" data-requiremodule="c" data-requirecontext="_" async="" charset="utf-8" type="text/javascript"></script><script src="FLIR%20Lepton%20Hookup%20Guide_files/ZeroClipboard.js" data-requiremodule="ZeroClipboard.min" data-requirecontext="_" async="" charset="utf-8" type="text/javascript"></script></head>
+
+  <body id="learn" class="layout-default no-type tutorials-view no-touch" ontouchstart="">
+    
+    <div class="wrapper" itemscope="" itemtype="http://schema.org/WebSite">
+      <meta itemprop="url" content="https://www.sparkfun.com/">
+      <div class="wrapper-inner">
+
+    
+<div class="header">
+  <div class="container">
+
+<!-- Mobile Nav Button -->
+<div class="mobile-menu-container left">
+  <a id="nav_toggle" class="mobile-menu-button nav_toggle" href="#"><span>≡</span></a>
+      <a id="search_toggle" class="mobile-menu-button" href="#"><span class="glyphicon glyphicon-search"></span></a>
+  </div>
+
+<nav class="top-links">
+  &nbsp;
+</nav>
+
+<!-- Logo -->
+<div class="logo-container">
+  <a class="logo" href="https://www.sparkfun.com/">
+    <span class="sfe-icon-flame"></span>
+    <span class="sfe-icon-sparkfun" data-icon="🔥">
+      <span class="visuallyhidden">sparkfun.com</span>
+    </span>
+  </a>
+</div>
+
+<!-- Tabs -->
+<!-- also edit mobile tabs in .main-nav -->
+<nav class="tabs-container">
+  <ul>
+    <li class="shop "><a href="https://www.sparkfun.com/">Shop</a></li>
+    <li class="learn active"><a href="https://learn.sparkfun.com/">Learn</a></li>
+    <li class="avc "><a href="https://avc.sparkfun.com/"><span class="sfe-icon-avc"><span class="visuallyhidden">AVC</span></span></a></li>
+    <li class="forum "><a href="https://forum.sparkfun.com/">Forum</a></li>
+    <li class="data "><a href="https://data.sparkfun.com/">Data</a></li>
+  </ul>
+</nav>
+
+<!-- Cart & User -->
+<div class="user-container mobile-menu-container right">
+
+  <a id="account_toggle" class="mobile-menu-button" href="#"><span class="glyphicon glyphicon-user"></span></a>
+
+      <div class="cart mobile-menu-button">
+      <a href="https://www.sparkfun.com/cart">
+        <span id="cart_status" class="sfe-icon-carticon cart-empty">
+          <span class="visuallyhidden">Shopping Cart</span>
+        </span>
+        <span class="cart_count">
+          <span id="items_in_cart">0</span>
+          <span id="cart_noun">items</span>
+        </span>
+      </a>
+    </div>
+  
+      <div class="user">
+      <!-- login modal trigger -->
+      <a class="btn btn-default" href="https://www.sparkfun.com/account/login?redirect=%2Flearn%2Ftutorials%2Fflir-lepton-hookup-guide" data-toggle="modal" data-target="#login_modal" data-remote="false">log in</a>
+      <a class="btn btn-default" href="https://www.sparkfun.com/account/make">register</a>    </div>
+  
+</div>
+
+<!-- Navigation / Search -->
+<div class="main-nav-container">
+
+  <nav class="main-nav">
+    <ul>
+      <li class="tab shop ">
+        <a href="https://www.sparkfun.com/">Shop</a>      </li>
+      <li class="tab learn active">
+        <a href="https://learn.sparkfun.com/">Learn</a>      </li>
+      
+<li class="start-a-project ">
+  <a href="https://learn.sparkfun.com/start_a_project">Start a Project</a></li>
+<li><a href="https://learn.sparkfun.com/blog">EDU Blog</a></li>
+<li><a href="https://learn.sparkfun.com/resources">Resources</a></li>
+<li class="active"><a href="https://learn.sparkfun.com/tutorials">Tutorials</a></li>
+<li><a href="https://learn.sparkfun.com/events">Classes</a></li>
+<li><a href="https://learn.sparkfun.com/calendar">Calendar</a></li>
+<li><a href="https://learn.sparkfun.com/workshops">Workshops</a></li>
+<li><a href="https://learn.sparkfun.com/contact">Contact</a></li>
+
+      <li class="desktop-toggle">
+        <a href="https://www.sparkfun.com/account/mobile_toggle?redirect=%2Flearn%2Ftutorials%2Fflir-lepton-hookup-guide">Desktop Site</a>      </li>
+    </ul>
+  </nav>
+
+      <form id="search_form" class="search" action="https://www.sparkfun.com/search/results" method="get" itemprop="potentialAction" itemscope="" itemtype="http://schema.org/SearchAction">
+      <meta itemprop="target" content="https://www.sparkfun.com/search/results?term={term}">
+      <div class="ui-widget">
+        <span class="ui-helper-hidden-accessible" aria-live="polite" role="status"></span><input name="term" id="global-search" class="form-control ui-autocomplete-input" placeholder="search..." itemprop="query-input" autocomplete="off" type="text">
+      </div>
+    </form>
+  
+</div>
+
+  </div>
+</div>
+
+
+    
+    <div class="content">
+      <div class="container">
+
+        
+        <div class="main-title">
+  <ul class="breadcrumb">
+    <li><a href="https://learn.sparkfun.com/">Home</a></li>
+    <li><a href="https://learn.sparkfun.com/tutorials">Tutorials</a></li>
+    <li>FLIR Lepton Hookup Guide</li>
+      </ul>
+
+  <h1>
+    FLIR Lepton Hookup Guide  </h1>
+
+</div>
+
+
+<a id="nav_toggle_pages" class="nav_toggle" href="#"><span>≡</span> Pages</a>
+
+<div id="tutorial" class="row">
+
+  <div class="col-sm-8" id="sections">
+
+    <div class="contributors">
+                      Contributors:
+                <a href="https://www.sparkfun.com/users/207060"><img src="FLIR%20Lepton%20Hookup%20Guide_files/3f2ffc88a128ff5f69a13c855d407dab.jpg"> NPoole</a>          </div>
+
+    <span class="fave_widget verbose">
+  <a href="#" class="fave_btn " title="Add to favorites" data-entity="learn_tutorials" data-entity-id="359">
+    <span class="fave_yes">
+      <span class="glyphicon glyphicon-heart"></span>
+      <span class="name">Favorited</span>
+    </span>
+    <span class="fave_no">
+      <span class="glyphicon glyphicon-heart-empty"></span>
+      <span class="name">Favorite</span>
+    </span>
+  </a>
+  <span class="fave_count">6</span>
+</span>    <div class="share-link-inline">
+
+  <a class="share-link-toggle" href="#">
+    <span class="share-title">
+      <span class="sfe-icon-share"></span>
+      Share    </span>
+  </a>
+
+  <div class="share-link-inner dialog">
+    Use this URL to share:<br>
+    <input class="form-control input-sm" value="http://sfe.io/t359" onclick="$(this).select();" type="text">
+
+    <div class="share-social">
+
+      <a rel="nofollow" onclick="return $(this).sfeutil('track_link',this,'Share','clicked','googleplus');" href="https://plus.google.com/share?url=http%3A%2F%2Fsfe.io%2Ft359" title="Share on Google+"><span class="sfe-icon-google-plus hidetext"><span>Share on Google+</span></span></a>
+
+      <a rel="nofollow" onclick="return $(this).sfeutil('track_link',this,'Share','clicked','tumblr');" href="https://www.tumblr.com/share/link?url=http%3A%2F%2Fsfe.io%2Ft359&amp;name=FLIR+Lepton+Hookup+Guide" title="Share on Tumblr"><span class="sfe-icon-tumblr hidetext"><span>Share on Tumblr</span></span></a>
+
+      <a rel="nofollow" onclick="return $(this).sfeutil('track_link',this,'Share','clicked','reddit');" href="https://www.reddit.com/submit?url=http%3A%2F%2Fsfe.io%2Ft359" title="Submit to reddit"><span class="sfe-icon-reddit hidetext"><span>Submit to reddi</span></span></a>
+
+    </div>
+
+    </div>
+  
+  <div class="share-social">
+
+    <a rel="nofollow" onclick="return $(this).sfeutil('track_link',this,'Share','clicked','twitter');" href="https://twitter.com/intent/tweet?text=FLIR+Lepton+Hookup+Guide&amp;url=http%3A%2F%2Fsfe.io%2Ft359&amp;via=sparkfun" title="Share on Twitter"><span class="sfe-icon-twitter hidetext"><span>Share on Twitter</span></span></a>
+
+    <a rel="nofollow" onclick="return $(this).sfeutil('track_link',this,'Share','clicked','facebook');" href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fsfe.io%2Ft359&amp;t=FLIR+Lepton+Hookup+Guide" title="Share on Facebook"><span class="sfe-icon-facebook-nobox hidetext"><span>Share on Facebook</span></span></a>
+
+          <a rel="nofollow" onclick="return $(this).sfeutil('track_link',this,'Share','clicked','pinterest');" href="https://www.pinterest.com/pin/create/button/?url=http%3A%2F%2Fsfe.io%2Ft359&amp;media=https%3A%2F%2Fcdn.sparkfun.com%2F%2Fr%2F500-1000%2Fassets%2Flearn_tutorials%2F3%2F5%2F9%2F13233-01.jpg&amp;description=FLIR+Lepton+Hookup+Guide" title="Pin It"><span class="sfe-icon-pinterest hidetext"><span>Pin It</span></span></a>
+    
+  </div>
+
+  
+</div>
+
+          <div class="section tutorial-page">
+        <h2 id="introduction">Introduction</h2>
+        <p>When our team found out that we’d be testing a Long Wave 
+Infrared (LWIR) camera, there were two words that we couldn’t stop 
+saying: Predator Vision. That’s right, we were finally going to be able 
+to see the invisible world of heat, which would aid us greatly if we 
+ever found ourselves hunting a team of special operatives in a remote 
+jungle… or, you know, trying not to scald ourselves on a hot cup of tea.</p>
+
+<p>As it happens, the <a href="https://www.sparkfun.com/products/13233">FLIR Lepton</a>
+ is an excellent little module for the price and Pure Engineering has 
+done a bang up job spinning the breakout board and documentation.</p>
+
+<p style="text-align:center;"> <a href="https://cdn.sparkfun.com/assets/learn_tutorials/3/5/9/13233-011.jpg"><img src="FLIR%20Lepton%20Hookup%20Guide_files/13233-011.jpg" alt="FLIR Lepton"></a></p>
+
+<p style="text-align:center;"><em>The FLIR Lepton in all its glory.</em></p>
+
+<p>There are, however, a few minor “gotchas” in the setup process and so
+ we figured it was best if we shared what we learned in playing with 
+this thing.</p>
+
+<p>But first… A bit of theory…</p>
+
+<h3>Suggested Reading</h3>
+
+<ul>
+<li>This tutorial will assume you have a little bit of Raspberry Pi 
+knowledge. If the Pi is new to you, have no fear. You can visit our <a href="https://learn.sparkfun.com/tutorials/setting-up-raspbian-and-doom">Installing Raspbian and DOOM tutorial</a>, if you need a primer. Also helpful is our <a href="https://learn.sparkfun.com/tutorials/raspberry-gpio">Raspberry Pi GPIO tutorial</a>.</li>
+<li>The Lepton uses <a href="https://learn.sparkfun.com/tutorials/serial-peripheral-interface-spi">SPI communication</a> to send its video stream and it uses an <a href="https://learn.sparkfun.com/tutorials/i2c">I<sup>2</sup>C-like Communication</a>
+ protocol as the control interface. If you are unfamiliar with either of
+ those communication methods, please visit the corresponding tutorial.</li>
+</ul>
+      </div>
+          <div class="section tutorial-page">
+        <h2 id="theory">Theory</h2>
+        <p>Electromagnetic radiation is all around (and within, and 
+throughout) us and is comprised of everything from gamma radiation on 
+the high frequency end to radio waves on the low frequency end. While 
+most imaging sensors detect radiation in the visible spectrum 
+(wavelengths from 380 to 700 nanometers), long Wave Infrared sensors 
+detect radiation from 900 to 14,000 nanometers. This is known as the 
+infrared spectrum, and it accounts for most of the thermal radiation 
+emitted by objects near room temperature.</p>
+
+<p style="text-align:center;"> <a href="https://cdn.sparkfun.com/assets/learn_tutorials/3/5/9/500px-EM_spectrum.svg.png"><img src="FLIR%20Lepton%20Hookup%20Guide_files/500px-EM_spectrum.png" alt="alt text"></a></p>
+
+<p style="text-align:center;"> <em>Electromagnetic spectrum with visible light highlighted. Wikimedia Commons.</em></p>
+
+<p>The sensor inside the FLiR Lepton is a microbolometer array. 
+Microbolometers are made up of materials which change resistance as 
+they’re heated up by infrared radiation. By measuring this resistance, 
+you can determine the temperature of the object that emitted the 
+radiation and create a false-color image that encodes that data.</p>
+
+<p>Thermal imaging of this type is often used in building inspection (to
+ detect insulation leaks), automotive inspection (to monitor cooling 
+performance) and medical diagnosis. Also, because of its ability to 
+produce an image without visible light, thermal imaging is ideal for 
+night vision cameras.</p>
+
+<p>When it comes to robotics, thermal cameras are especially useful heat
+ detectors because the image that they produce (by virtue of being, 
+well, an image) can be processed using the same techniques and software 
+as visible light images. Imagine using something like <a href="http://opencv.org/">OpenCV</a>
+ to track, not just color centroids, but heat centroids! That’s right, 
+you could be building heat-seeking robots right in your own home!</p>
+
+<p>In fact, what are we waiting for? Let me give you the tour…</p>      </div>
+          <div class="section tutorial-page">
+        <h2 id="hardware">Hardware</h2>
+        <p>Today we’ll be setting up the Raspberry Pi example code as 
+provided by Pure Engineering and featured in our product video. So, of 
+course, we’ll be needing a <a href="https://www.sparkfun.com/products/12994">Raspberry Pi</a>… and not much else, actually. Just a handful of <a href="https://www.sparkfun.com/products/11710">F/F jumper wires</a>
+ as well as a monitor, keyboard and accompanying cables for your 
+Raspberry Pi. The example code has been tested on a Raspberry Pi model 
+B, but it should work fine on any model so long as you have <a href="http://www.raspberrypi.org/downloads/">Raspbian</a> installed.</p>
+
+<div class="well">
+    It is worth mentioning that, while the Lepton module isn’t 
+particularly sensitive to electrostatic discharge, it is a complex and 
+relatively pricey component. You might want to take a few precautions 
+while working with it so you don’t accidentally zap it. <br></div>
+
+
+<p>Make sure that your Lepton module is securely snapped into the socket on the breakout board and grab a few F/F jumper wires.</p>
+
+<p>Connect the FLIR breakout to the Raspberry Pi GPIO according to the 
+diagram below. If you need a refresher on how the GPIO pins are 
+oriented, visit our <a href="https://learn.sparkfun.com/tutorials/raspberry-gpio#gpio-pinout">Raspberry Pi GPIO tutorial</a></p>
+
+<p style="text-align:center;"> <a href="https://cdn.sparkfun.com/assets/learn_tutorials/3/5/9/RPi-FLIR-Diag-FIXED.png"><img src="FLIR%20Lepton%20Hookup%20Guide_files/RPi-FLIR-Diag-FIXED.png" alt="alt text"></a></p>
+
+<p>Congratulations, that’s the hardware part done. Now onto the software configuration!</p>      </div>
+          <div class="section tutorial-page">
+        <h2 id="software">Software</h2>
+        <p>As I mentioned earlier, you’ll want to have the Raspbian OS 
+installed on your Raspberry Pi. Boot it up, and open the Terminal 
+program. Our first matter of business will be enabling the Pi’s SPI and 
+I2C interfaces. Luckily, Raspbian makes this easy to do by including a 
+utility called <strong>raspi-config</strong>. To run the utility just type:</p>
+
+<pre><div class="copy-code" data-code-id="code-0"><button class="btn btn-default btn-sm">Copy Code</button></div><code>sudo raspi-config
+</code></pre><div class="hide" id="code-0">sudo raspi-config
+</div>
+
+<p>You should be presented with the following screen:</p>
+
+<p style="text-align:center;"> <a href="https://cdn.sparkfun.com/assets/learn_tutorials/3/5/9/2015-03-22-202105_1184x624_scrot.png"><img src="FLIR%20Lepton%20Hookup%20Guide_files/2015-03-22-202105_1184x624_scrot.png" alt="alt text"></a></p>
+
+<p>Click on the “Advanced Options” menu, as shown above.</p>
+
+<p style="text-align:center;"> <a href="https://cdn.sparkfun.com/assets/learn_tutorials/3/5/9/2015-03-22-202124_1184x624_scrot.png"><img src="FLIR%20Lepton%20Hookup%20Guide_files/2015-03-22-202124_1184x624_scrot.png" alt="alt text"></a></p>
+
+<p>Select SPI and follow the instructions on the following screens. 
+After you’ve completed the SPI steps, do the same thing for I2C. When 
+you exit raspi-config, it will ask if you want to reboot. Go ahead and 
+do it so that the changes we just made will stick.</p>
+
+<p>Pure Engineering’s example code is a QT application so we’ll need to 
+get that dependency installed before we can compile it. Don’t worry, 
+it’s easy to do. Make sure that the Pi has an Internet connection, and 
+run the following command to install the QT dev tools:</p>
+
+<pre><div class="copy-code" data-code-id="code-1"><button class="btn btn-default btn-sm">Copy Code</button></div><code>sudo apt-get install qt4-dev-tools
+</code></pre><div class="hide" id="code-1">sudo apt-get install qt4-dev-tools
+</div>
+
+<p>Which will look something like this…</p>
+
+<p style="text-align:center;"> <a href="https://cdn.sparkfun.com/assets/learn_tutorials/3/5/9/2015-03-22-201434_1184x624_scrot.png"><img src="FLIR%20Lepton%20Hookup%20Guide_files/2015-03-22-201434_1184x624_scrot.png" alt="alt text"></a></p>
+
+<p>Once installation is complete, go to the Pure Engineering <a href="https://github.com/PureEngineering/LeptonModule">github repo</a>
+ and retrieve the raspberrypi_video directory. If you’re familiar with 
+git, you can do this from the command line. For most people, it’s just 
+as easy to browse to the above link, and click “Download ZIP”. You can 
+download the file to whatever directory you like, then <code>cd</code> to that directory in Terminal, and unzip it using the following command:</p>
+
+<pre><div class="copy-code" data-code-id="code-2"><button class="btn btn-default btn-sm">Copy Code</button></div><code>unzip LeptonModule-master.zip 
+</code></pre><div class="hide" id="code-2">unzip LeptonModule-master.zip 
+</div>
+
+<p style="text-align:center;"> <a href="https://cdn.sparkfun.com/assets/learn_tutorials/3/5/9/2015-03-22-202255_1184x624_scrot.png"><img src="FLIR%20Lepton%20Hookup%20Guide_files/2015-03-22-202255_1184x624_scrot.png" alt="alt text"></a></p>
+
+<p>Now <code>cd</code> into the unzipped folder “LeptonModule-master” 
+and the directory “raspberrypi_video”. This directory contains all of 
+the files you need to compile the example code. First, we need to “make”
+ the Lepton SDK, so <code>cd</code> into the “LeptonSDKEmb32PUB” directory and run <code>make</code>.</p>
+
+<p>Once that process has completed, <code>cd</code> back out to the “raspberrypi_video” directory and run <code>qmake &amp;&amp; make</code>:</p>
+
+<p style="text-align:center;"> <a href="https://cdn.sparkfun.com/assets/learn_tutorials/3/5/9/2015-03-22-202522_1184x624_scrot.png"><img src="FLIR%20Lepton%20Hookup%20Guide_files/2015-03-22-202522_1184x624_scrot.png" alt="alt text"></a></p>
+
+<p>Congratulations! You’ve just compiled the example code, and you’re 
+ready to run it. Simply type the following into your command line:</p>
+
+<pre><div class="copy-code" data-code-id="code-3"><button class="btn btn-default btn-sm">Copy Code</button></div><code>sudo ./raspberrypi_video
+</code></pre><div class="hide" id="code-3">sudo ./raspberrypi_video
+</div>
+
+<p style="text-align:center;"> <a href="https://cdn.sparkfun.com/assets/learn_tutorials/3/5/9/2015-03-22-202835_1184x624_scrot.png"><img src="FLIR%20Lepton%20Hookup%20Guide_files/2015-03-22-202835_1184x624_scrot.png" alt="alt text"></a></p>
+
+<p>You may get an error like the one shown above: a red square in a blank window. If this is the case, <em>carefully</em> remove the Lepton module from the breakout board. That’s right, pull it from the socket, while it’s powered. Then (again, <em>very carefully</em>) pop it back into place. Images should start pouring in!</p>
+
+<p style="text-align:center;"> <a href="https://cdn.sparkfun.com/assets/learn_tutorials/3/5/9/2015-03-22-202944_1184x624_scrot.png"><img src="FLIR%20Lepton%20Hookup%20Guide_files/2015-03-22-202944_1184x624_scrot.png" alt="alt text"></a></p>
+
+<p style="text-align:center;"> <em>Visualizing the insulating properties of my beard</em></p>      </div>
+          <div class="section tutorial-page">
+        <h2 id="resources-and-going-further">Resources and Going Further</h2>
+        <h2>Going Further</h2>
+
+<p>Now that you’re successfully retrieving LWIR images from the Lepton 
+module you can dig into the example code and apply it to your own 
+project! Try piping the frames captured from your Lepton module into 
+some computer vision software like <a href="http://simplecv.org/">SimpleCV</a>!</p>
+
+<p>Thermography has hundreds of applications. Spend some time just 
+playing with the camera to see where you might find uses for it. We’d 
+love to see what you do with the FLIR Dev Kit so be sure to leave a 
+comment and tell us all about it!</p>
+
+<h2>Resources</h2>
+
+<ul>
+<li><a href="https://www.sparkfun.com/products/13233">FLIR Dev Kit Product Page</a></li>
+<li><a href="https://cdn.sparkfun.com/datasheets/Sensors/Infrared/FLIR_Lepton_Data_Brief.pdf">Lepton Datasheet</a></li>
+<li><a href="https://github.com/PureEngineering/LeptonModule">Lepton Module Github Repo</a></li>
+<li><a href="https://groups.google.com/forum/#%21forum/flir-lepton">FLIR Lepton Discussion Forum</a></li>
+<li><a href="http://www.raspberrypi.org/downloads/">Raspbian OS Download</a></li>
+</ul>
+      </div>
+    
+        <div class="share-link-inline">
+
+  <a class="share-link-toggle" href="#">
+    <span class="share-title">
+      <span class="sfe-icon-share"></span>
+      Share    </span>
+  </a>
+
+  <div class="share-link-inner dialog">
+    Use this URL to share:<br>
+    <input class="form-control input-sm" value="http://sfe.io/t359" onclick="$(this).select();" type="text">
+
+    <div class="share-social">
+
+      <a rel="nofollow" onclick="return $(this).sfeutil('track_link',this,'Share','clicked','googleplus');" href="https://plus.google.com/share?url=http%3A%2F%2Fsfe.io%2Ft359" title="Share on Google+"><span class="sfe-icon-google-plus hidetext"><span>Share on Google+</span></span></a>
+
+      <a rel="nofollow" onclick="return $(this).sfeutil('track_link',this,'Share','clicked','tumblr');" href="https://www.tumblr.com/share/link?url=http%3A%2F%2Fsfe.io%2Ft359&amp;name=FLIR+Lepton+Hookup+Guide" title="Share on Tumblr"><span class="sfe-icon-tumblr hidetext"><span>Share on Tumblr</span></span></a>
+
+      <a rel="nofollow" onclick="return $(this).sfeutil('track_link',this,'Share','clicked','reddit');" href="https://www.reddit.com/submit?url=http%3A%2F%2Fsfe.io%2Ft359" title="Submit to reddit"><span class="sfe-icon-reddit hidetext"><span>Submit to reddi</span></span></a>
+
+    </div>
+
+    </div>
+  
+  <div class="share-social">
+
+    <a rel="nofollow" onclick="return $(this).sfeutil('track_link',this,'Share','clicked','twitter');" href="https://twitter.com/intent/tweet?text=FLIR+Lepton+Hookup+Guide&amp;url=http%3A%2F%2Fsfe.io%2Ft359&amp;via=sparkfun" title="Share on Twitter"><span class="sfe-icon-twitter hidetext"><span>Share on Twitter</span></span></a>
+
+    <a rel="nofollow" onclick="return $(this).sfeutil('track_link',this,'Share','clicked','facebook');" href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fsfe.io%2Ft359&amp;t=FLIR+Lepton+Hookup+Guide" title="Share on Facebook"><span class="sfe-icon-facebook-nobox hidetext"><span>Share on Facebook</span></span></a>
+
+          <a rel="nofollow" onclick="return $(this).sfeutil('track_link',this,'Share','clicked','pinterest');" href="https://www.pinterest.com/pin/create/button/?url=http%3A%2F%2Fsfe.io%2Ft359&amp;media=https%3A%2F%2Fcdn.sparkfun.com%2F%2Fr%2F500-1000%2Fassets%2Flearn_tutorials%2F3%2F5%2F9%2F13233-01.jpg&amp;description=FLIR+Lepton+Hookup+Guide" title="Pin It"><span class="sfe-icon-pinterest hidetext"><span>Pin It</span></span></a>
+    
+  </div>
+
+  
+</div>
+
+  </div>
+
+  <div class="col-sm-4" id="nav-pages">
+    <div class="affix-top" id="sidebar_affix">
+
+      <div id="tutorial-pages" class="list-group">
+        <a class="list-group-item"><b>Sections</b></a>
+                          <a data-pagename="introduction" class="list-group-item" href="#introduction">
+            Introduction          </a>
+                  <a data-pagename="theory" class="list-group-item" href="#theory">
+            Theory          </a>
+                  <a data-pagename="hardware" class="list-group-item" href="#hardware">
+            Hardware          </a>
+                  <a data-pagename="software" class="list-group-item" href="#software">
+            Software          </a>
+                  <a data-pagename="resources-and-going-further" class="list-group-item" href="#resources-and-going-further">
+            Resources and Going Further          </a>
+              </div>
+
+      <div class="list-group">
+        <a class="list-group-item" href="https://learn.sparkfun.com/tutorials/flir-lepton-hookup-guide/discuss">
+          Comments
+          <span class="badge">10</span>
+        </a>
+        <a class="list-group-item" href="https://learn.sparkfun.com/tutorials/flir-lepton-hookup-guide/introduction">
+          View Paginated
+        </a>
+        <a class="list-group-item" href="#" onclick="window.print(); return false;">
+          Print
+        </a>
+      </div>
+
+      <ul class="list-group">
+        <li class="list-group-item"><b>Tags</b></li>
+        <li class="list-group-item"><ul class="tags-list">
+  <li>
+    <a class="tag" href="https://learn.sparkfun.com/tutorials/tags/hookup">Hookup</a>  </li>
+  <li>
+    <a class="tag" href="https://learn.sparkfun.com/tutorials/tags/light">Light</a>  </li>
+  <li>
+    <a class="tag" href="https://learn.sparkfun.com/tutorials/tags/raspberry-pi">Raspberry Pi</a>  </li>
+  <li>
+    <a class="tag" href="https://learn.sparkfun.com/tutorials/tags/sensors">Sensors</a>  </li>
+</ul>
+</li>
+      </ul>
+
+      <ul class="list-group">
+        <li class="list-group-item"><b>License</b></li>
+        <li class="list-group-item">
+          <span class="sfe-icon-cc">
+            <span class="visuallyhidden">Creative Commons</span>
+          </span>
+          <small>tutorials are <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="new">CC BY-SA 4.0</a></small>
+        </li>
+      </ul>
+
+    </div>
+  </div>
+
+</div>
+
+<script type="text/javascript">
+  require(['tutorial', 'jquery.imagesloaded'], function() {
+    $('#tutorial').tutorial();
+  });
+</script>
+
+      </div> <!-- /container -->
+    </div> <!-- /content -->
+
+    
+<footer>
+
+<div class="social">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12">
+        <div class="sharing-ingenuity">
+          <span class="sfe-icon-flame"></span>
+          <span class="text"><span class="text-top">Sharing<br></span>Ingenuity</span>
+        </div>
+        <ul class="spew">
+          <li><a href="http://www.github.com/sparkfun" target="_blank" class="sfe-icon-github"><span class="visuallyhidden">GitHub</span></a></li>
+          <li><a href="http://www.youtube.com/sparkfun" target="_blank" class="sfe-icon-youtube"><span class="visuallyhidden">YouTube</span></a></li>
+          <li><a href="http://www.vimeo.com/sparkfun" target="_blank" class="sfe-icon-vimeo"><span class="visuallyhidden">Vimeo</span></a></li>
+          <li><a href="http://www.facebook.com/SparkFun" target="_blank" class="sfe-icon-facebook"><span class="visuallyhidden">Facebook</span></a></li>
+          <li><a href="https://plus.google.com/106084846822083498483/" target="_blank" class="sfe-icon-google-plus"><span class="visuallyhidden">Google Plus</span></a></li>
+          <li><a href="http://www.flickr.com/photos/sparkfun/" target="_blank" class="sfe-icon-flickr"><span class="visuallyhidden">Flickr</span></a></li>
+          <li><a href="https://twitter.com/#%21/sparkfun" target="_blank" class="sfe-icon-twitter"><span class="visuallyhidden">Twitter</span></a></li>
+          <li><a href="https://www.sparkfun.com/feeds" class="sfe-icon-feed"><span class="visuallyhidden">RSS</span></a></li>
+        </ul>
+        <div class="newsletter">
+          <!--[if lte IE 8]>
+<script charset="utf-8" type="text/javascript" src="//js.hsforms.net/forms/v2-legacy.js"></script>
+<![endif]-->
+<script charset="utf-8" type="text/javascript" src="FLIR%20Lepton%20Hookup%20Guide_files/v2.js"></script>
+<script>
+  hbspt.forms.create({
+    css: '',
+    cssClass: 'hubspot-newsletter-subscribe',
+    portalId: '2224003',
+    formId: 'd2b17dd4-e1bb-406a-ba41-44c19dcd0376'
+  });
+</script><div id="hbspt-form-1480461472818" class="hbspt-form"><form novalidate="" accept-charset="UTF-8" action="https://forms.hubspot.com/uploads/form/v2/2224003/d2b17dd4-e1bb-406a-ba41-44c19dcd0376" enctype="multipart/form-data" id="hsForm_d2b17dd4-e1bb-406a-ba41-44c19dcd0376" method="POST" class="hubspot-newsletter-subscribe hs-form" data-form-id="d2b17dd4-e1bb-406a-ba41-44c19dcd0376" data-portal-id="2224003" data-reactid=".hbspt-forms-0"><div data-reactid=".hbspt-forms-0.0:$0"><div class="hs_email field hs-form-field" data-reactid=".hbspt-forms-0.0:$0.$email"><label class="" placeholder="Enter your " for="email-d2b17dd4-e1bb-406a-ba41-44c19dcd0376" data-reactid=".hbspt-forms-0.0:$0.$email.0"><span data-reactid=".hbspt-forms-0.0:$0.$email.0.0"></span></label><legend class="hs-field-desc" style="display:none;" data-reactid=".hbspt-forms-0.0:$0.$email.1"></legend><div class="input" data-reactid=".hbspt-forms-0.0:$0.$email.$email"><input id="email-d2b17dd4-e1bb-406a-ba41-44c19dcd0376" class="hs-input" name="email" placeholder="" data-reactid=".hbspt-forms-0.0:$0.$email.$email.0" type="email"></div></div></div><div class="hs_submit" data-reactid=".hbspt-forms-0.2"><div class="hs-field-desc" style="display:none;" data-reactid=".hbspt-forms-0.2.0"></div><div class="actions" data-reactid=".hbspt-forms-0.2.1"><input value="SUBSCRIBE TO EDUCATOR NEWSLETTER" class="hs-button primary large" data-reactid=".hbspt-forms-0.2.1.0" type="submit"></div></div><input name="hs_context" value="{&quot;rumScriptExecuteTime&quot;:656.335,&quot;rumServiceResponseTime&quot;:873.27,&quot;rumFormRenderTime&quot;:133.91500000000008,&quot;rumTotalRenderTime&quot;:873.955,&quot;rumTotalRequestTime&quot;:132.12,&quot;css&quot;:&quot;&quot;,&quot;pageUrl&quot;:&quot;https://learn.sparkfun.com/tutorials/flir-lepton-hookup-guide&quot;,&quot;source&quot;:&quot;FormsNext-static-1.397&quot;,&quot;timestamp&quot;:1480461472971,&quot;userAgent&quot;:&quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:48.0) Gecko/20100101 Firefox/48.0&quot;,&quot;referrer&quot;:&quot;&quot;,&quot;hutk&quot;:{},&quot;originalEmbedContext&quot;:{&quot;css&quot;:&quot;&quot;,&quot;cssClass&quot;:&quot;hubspot-newsletter-subscribe&quot;,&quot;portalId&quot;:&quot;2224003&quot;,&quot;formId&quot;:&quot;d2b17dd4-e1bb-406a-ba41-44c19dcd0376&quot;,&quot;target&quot;:&quot;#hbspt-form-1480461472818&quot;},&quot;recentFieldsCookie&quot;:{},&quot;boolCheckBoxFields&quot;:&quot;&quot;,&quot;dateFields&quot;:&quot;&quot;,&quot;smartFields&quot;:{},&quot;urlParams&quot;:{},&quot;formValidity&quot;:{},&quot;correlationId&quot;:&quot;3f084070-add9-4b6e-87d8-04c8315988aa&quot;,&quot;disableCookieSubmission&quot;:false}" data-reactid=".hbspt-forms-0.3" type="hidden"></form></div>
+        </div>
+      </div>
+    </div><!-- end .row -->
+  </div><!-- end .container -->
+</div><!-- end .social -->
+
+<div class="container">
+
+    <div class="row">
+
+    <div class="subfooter subfooter-about">
+      <p>
+        <b>SparkFun</b> is an online retail store that sells the bits and pieces to
+        make your electronics projects possible. Whether it's a robot that can
+        cook your breakfast or a GPS cat tracking device, our products and
+        resources are designed to make the world of electronics more accessible.
+      </p>
+      <p>
+        In addition to products, SparkFun also offers
+        classes and online tutorials to help educate
+        individuals in the wonderful world of embedded electronics.
+      </p>
+
+      <div class="row">
+
+        <div class="col-sm-6">
+          <ul>
+            <li><b>About Us</b>
+            </li><li><a href="https://www.sparkfun.com/static/about">About SparkFun</a></li>
+            <li><a href="https://learn.sparkfun.com/about">SparkFun Education</a></li>
+            <li><a title="RSS Feeds" href="https://www.sparkfun.com/feeds">Feeds <span class="sfe-icon-feed"></span></a></li>
+            <li><a href="https://www.sparkfun.com/jobs">Jobs</a></li>
+            <li><a href="https://www.sparkfun.com/static/contact">Contact</a></li>
+          </ul>
+        </div>
+
+        <div class="col-sm-6">
+          <ul>
+            <li><b>Help</b></li>
+            <li><a href="https://www.sparkfun.com/support">Customer Service</a></li>
+            <li><a href="https://www.sparkfun.com/support#ShippingPolicy">Shipping</a></li>
+            <li><a href="https://www.sparkfun.com/returns">Return Policy</a></li>
+            <li><a href="https://www.sparkfun.com/static/faq">FAQ</a></li>
+                      </ul>
+        </div>
+
+      </div>
+
+      <div class="row">
+
+        <div class="col-sm-6">
+          <ul>
+            <li><b>Programs</b></li>
+            <li><a href="https://learn.sparkfun.com/educator_discount">Educator Discount</a></li>
+            <li><a href="https://www.sparkfun.com/sponsor">Partner with SparkFun</a></li>
+            <li><a href="https://www.sparkfun.com/project_calls">Tell Us About Your Project</a></li>
+            <li><a href="https://learn.sparkfun.com/tutorials/how-to-sell-your-widget-on-sparkfun">Sell Your Widget on SparkFun</a></li>
+            <li><a href="https://www.sparkfun.com/distributors/apply">Become a SparkFun Distributor</a></li>
+            <li><a href="https://www.sparkfun.com/volume">Large Volume Sales</a> </li>
+          </ul>
+        </div>
+
+        <div class="col-sm-6">
+          <ul>
+            <li><b>Community</b></li>
+            <li><a href="https://forum.sparkfun.com/">Forum</a></li>
+            <li><a href="https://www.sparkfun.com/news/263">SparkFun IRC Channel</a></li>
+            <li><a href="https://www.sparkfun.com/quiz">Take the SparkFun Quiz</a></li>
+            <li><a href="https://www.kickstarter.com/pages/sparkfun">SparkFun Kickstarter Projects</a></li>
+            <li><a href="https://www.sparkfun.com/distributors">Distributors</a></li>
+          </ul>
+        </div>
+
+      </div><!-- end .row -->
+
+    </div>
+
+    <div id="feedback" class="subfooter subfooter-woym">
+      <form id="woym_form" class="feedback" action="https://learn.sparkfun.com/feedback/mind.json" onsubmit="$(this).sfeutil('mind_feedback'); return false;" method="POST">
+        <div class="error" id="error_feedback" style="display: none"></div>
+        <input name="sparkaptcha" id="sparkaptcha" value="0" type="hidden">
+
+        <div class="form-group">
+          <label for="feedback_textarea" class="control-label">What's on your mind?</label>
+          <div class="controls">
+            <textarea id="feedback_textarea" class="form-control" name="feedback_text" required=""></textarea>
+            <div class="error" id="error_feedback_text" style="display: none"></div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="feedback_dest" class="control-label">For which department?</label>
+          <select name="dest" class="form-control" id="feedback_dest">
+            <option selected="selected" value="general">General</option>
+            <option value="cust">Customer Service</option>
+            <option value="tech">Tech Support</option>
+                          <option value="edu">Education Department</option>
+                      </select>
+        </div>
+
+        <div class="form-group">
+          <label for="feedback_email" class="control-label">
+            Please include your email address if you'd like us to respond to a specific question.
+          </label>
+
+          <div class="input-group">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span>
+            <input class="form-control" id="feedback_email" name="email" placeholder="email address" type="text">
+          </div>
+          <div class="error" id="error_feedback_email" style="display: none"></div>
+
+        </div>
+
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+
+  </div><!-- end .row -->
+  
+  <ul class="copyleft">
+    <li>SparkFun Electronics <a href="https://www.sparkfun.com/news/300">®</a></li>
+    <li><a href="http://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q=6333+Dry+Creek+Parkway,+Niwot,+CO+80503">Niwot, Colorado</a></li>
+    <li><a href="https://www.sparkfun.com/support">Customer Service</a></li>
+    <li><a href="https://www.sparkfun.com/sitemap">Site Map</a></li>
+    <li><a href="https://www.sparkfun.com/terms">Terms of Service</a></li>
+    <li><a href="https://www.sparkfun.com/privacy">Privacy Policy</a></li>
+    <li class="desktop-toggle">
+              <a href="https://www.sparkfun.com/account/mobile_toggle?redirect=%2Flearn%2Ftutorials%2Fflir-lepton-hookup-guide">Desktop Site</a>          </li>
+  </ul>
+
+</div><!-- end .container -->
+
+</footer>
+
+    <div class="nav-account">
+  <ul class="nav nav-tabs">
+    <li class="visible-xs">
+      <a class="nav-toggle-account back" href="#">Your Account</a>
+    </li>
+          <li class="">
+        <a href="https://www.sparkfun.com/account/login?redirect=%2Flearn%2Ftutorials%2Fflir-lepton-hookup-guide" data-toggle="modal" data-target="#login_modal" data-remote="false">Log In</a>
+      </li>
+          <li class="">
+        <a href="https://www.sparkfun.com/account/make">Register</a>
+      </li>
+      </ul>
+</div>
+
+      </div><!-- end .wrapper-inner -->
+    </div><!-- end .wrapper -->
+
+    <!-- Login Modal -->
+<div class="modal fade" id="login_modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title">Log In</h4>
+        <p class="modal-header-msg"></p>
+      </div>
+      <div class="modal-body">
+        <form role="form" action="https://www.sparkfun.com/account/login" method="post">
+          <input name="redirect" value="/learn/tutorials/flir-lepton-hookup-guide" type="hidden">
+          <div class="form-group">
+            <label for="login-username">Email</label>
+            <input tabindex="1" name="user" id="login-username" class="form-control" type="email">
+          </div>
+          <div class="form-group">
+            <label for="login-password">Password</label>
+            <input tabindex="2" name="passwd" id="login-password" class="form-control" type="password">
+          </div>
+          <div class="form-group">
+            <input value="Log In" tabindex="3" class="btn btn-action" type="submit">
+          </div>
+        </form>
+        <p>
+          <a href="https://www.sparkfun.com/account/forgot_password">Forgot your password?</a>          <br>
+          No account? <a id="btn_register_account" href="https://www.sparkfun.com/account/make">Register one!</a>        </p>
+      </div>
+    </div>
+  </div>
+</div>
+  
+      
+
+
+<ul style="display: none;" tabindex="0" id="ui-id-1" class="ui-autocomplete ui-front ui-menu ui-widget ui-widget-content ui-corner-all"></ul><div style="position: absolute; left: 0px; top: -9999px; width: 15px; height: 15px; z-index: 999999999;" class="global-zeroclipboard-container" id="global-zeroclipboard-html-bridge">      <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" id="global-zeroclipboard-flash-bridge" width="100%" height="100%">         <param name="movie" value="/js/ZeroClipboard.swf?noCache=1480461473184">         <param name="allowScriptAccess" value="sameDomain">         <param name="scale" value="exactfit">         <param name="loop" value="false">         <param name="menu" value="false">         <param name="quality" value="best">         <param name="bgcolor" value="#ffffff">         <param name="wmode" value="transparent">         <param name="flashvars" value="trustedOrigins=learn.sparkfun.com%2C%2F%2Flearn.sparkfun.com%2Chttps%3A%2F%2Flearn.sparkfun.com&amp;jsModuleId=ZeroClipboard.min">         <embed src="FLIR%20Lepton%20Hookup%20Guide_files/ZeroClipboard.swf" loop="false" menu="false" quality="best" bgcolor="#ffffff" name="global-zeroclipboard-flash-bridge" allowscriptaccess="sameDomain" allowfullscreen="false" type="application/x-shockwave-flash" wmode="transparent" pluginspage="http://www.macromedia.com/go/getflashplayer" flashvars="trustedOrigins=learn.sparkfun.com%2C%2F%2Flearn.sparkfun.com%2Chttps%3A%2F%2Flearn.sparkfun.com&amp;jsModuleId=ZeroClipboard.min" scale="exactfit" width="100%" height="100%">                </object></div><script id="hiddenlpsubmitdiv" type="application/x-lastpass" aria-hidden="true" style="display: none;"></script><script>try{(function() { for(var lastpass_iter=0; lastpass_iter < document.forms.length; lastpass_iter++){ var lastpass_f = document.forms[lastpass_iter]; if(typeof(lastpass_f.lpsubmitorig2)=="undefined"){ lastpass_f.lpsubmitorig2 = lastpass_f.submit; if (typeof(lastpass_f.lpsubmitorig2)=='object'){ continue;}lastpass_f.submit = function(){ var form=this; var customEvent = document.createEvent("Event"); customEvent.initEvent("lpCustomEvent", true, true); var d = document.getElementById("hiddenlpsubmitdiv"); if (d) {for(var i = 0; i < document.forms.length; i++){ if(document.forms[i]==form){ if (typeof(d.innerText) != 'undefined') { d.innerText=i.toString(); } else { d.textContent=i.toString(); } } } d.dispatchEvent(customEvent); }form.lpsubmitorig2(); } } }})()}catch(e){}</script></body></html>

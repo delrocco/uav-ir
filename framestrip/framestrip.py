@@ -4,6 +4,7 @@
 # @author: Joe Del Rocco
 # @since: 10/25/2016
 # @summary: A script to strips frames from videos.
+#           Requires 'ffmpeg' to be installed an accessible on PATH.
 #====================================================================
 import argparse
 import logging
@@ -14,7 +15,7 @@ import ffmpy
 import subprocess
 
 
-class FrameStripper(object):
+class FrameStrip(object):
     def __init__(self, cmd_args):
         self.args = cmd_args
 
@@ -133,7 +134,7 @@ def main():
     #    args.fcount = myutil.clamp(args.fcount, 1, 1000000)
 
     # do it!
-    fs = FrameStripper(args)
+    fs = FrameStrip(args)
     status = fs.run()
     sys.exit(status)
 

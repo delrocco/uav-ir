@@ -26,13 +26,18 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <stdint.h>
 #include <unistd.h>
 #include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
 #include <getopt.h>
 #include <fcntl.h>
 #include <sys/ioctl.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 #include <linux/types.h>
 #include <linux/spi/spidev.h>
 #include <limits.h>
+#include <libgen.h>
+#include <dirent.h>
 
 #define ARRAY_SIZE(a) (sizeof(a) / sizeof((a)[0]))
 
@@ -52,27 +57,44 @@ static uint16_t delay;
 uint8_t lepton_frame_packet[VOSPI_FRAME_SIZE];
 static unsigned int lepton_image[80][80];
 
-static void save_pgm_file(void)
+static void save_pgm_file(char* exepath)
 {
 	int i;
 	int j;
 	unsigned int maxval = 0;
-	unsigned int minval = UINT_MAX;
-	char image_name[32];
-	int image_index = 0;
+	unsigned int minval = 0;//UINT_MAX;
+	DIR* framesdir;
+	char framespath[1024];
+	char imgpath[1024];
+	int imgidx = 0;
+	
+	// make sure frames folder exists; create if necessary
+	strcpy(framespath, dirname(exepath));
+	strcat(framespath, "/frames");
+	framesdir = opendir(framespath);
+	if (framesdir)
+		closedir(framesdir);
+	else
+	{
+		mkdir(framespath, 0777);
+		chmod(framespath, 0777);
+	}
 
+	// select next available image name
 	do {
-		sprintf(image_name, "frames/IMG_%.4d.pgm", image_index);
-		image_index += 1;
-		if (image_index > 9999) 
+		
+		sprintf(imgpath, "%s/IMG_%.4d.pgm", framespath, imgidx);
+		imgidx += 1;
+		if (imgidx > 9999) 
 		{
-			image_index = 0;
+			imgidx = 0;
 			break;
 		}
+	} while (access(imgpath, F_OK) == 0);
+	//printf("%s\n", imgpath);
 
-	} while (access(image_name, F_OK) == 0);
-
-	FILE *f = fopen(image_name, "w");
+	// open image filepath
+	FILE *f = fopen(imgpath, "w");
 	if (f == NULL)
 	{
 		printf("Error opening file!\n");
@@ -94,16 +116,16 @@ static void save_pgm_file(void)
 	//}
 	
 	maxval = 10000;
-	minval = 0; //7000;
+	minval = 6000;
 	//printf("maxval = %u\n",maxval);
 	//printf("minval = %u\n",minval);
 	
-	fprintf(f,"P2\n80 60\n%u\n", maxval);//-minval);
+	fprintf(f,"P2\n80 60\n%u\n", maxval-minval);
 	for(i=0;i<60;i++)
 	{
 		for(j=0;j<80;j++)
 		{
-			fprintf(f,"%d ", lepton_image[i][j]);// - minval);
+			fprintf(f,"%d ", lepton_image[i][j] - minval);
 		}
 		fprintf(f,"\n");
 	}
@@ -202,7 +224,7 @@ int main(int argc, char *argv[])
 
 	close(fd);
 
-	save_pgm_file();
+	save_pgm_file(argv[0]);
 
 	return ret;
 }

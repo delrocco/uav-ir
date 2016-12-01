@@ -1,5 +1,5 @@
 
-TARGET = raspberrypi_capture
+TARGET = capture
 LIBS = -lm
 CC = gcc
 CFLAGS = -g -Wall

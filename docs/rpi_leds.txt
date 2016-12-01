@@ -1,0 +1,26 @@
+Commands for controlling the Raspberry Pi 2 LEDs.
+
+OK (ACT) LED = led0
+Power (PWR) LED = led1
+
+Allow access
+echo gpio | sudo tee /sys/class/leds/led0/trigger
+echo gpio | sudo tee /sys/class/leds/led1/trigger
+
+Heartbeat effect
+echo heartbeat | sudo tee /sys/class/leds/led0/trigger
+echo heartbeat | sudo tee /sys/class/leds/led1/trigger
+
+Timer effect
+echo timer | sudo tee /sys/class/leds/led0/trigger
+echo timer | sudo tee /sys/class/leds/led1/trigger
+
+Turn on/off
+echo 1 | sudo tee /sys/class/leds/led0/brightness
+echo 0 | sudo tee /sys/class/leds/led0/brightness
+echo 1 | sudo tee /sys/class/leds/led1/brightness
+echo 0 | sudo tee /sys/class/leds/led1/brightness
+
+Revert back to default setting
+echo input | sudo tee /sys/class/leds/led1/trigger
+echo mmc0 | sudo tee /sys/class/leds/led0/trigger

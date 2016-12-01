@@ -1,0 +1,20 @@
+----------------------------------------
+MLP-BPNN
+----------------------------------------
+
+Codebase and tools used for a UAV photogrammetric thermography project at IST/UCF.
+
+----------------------------------------
+HELP
+----------------------------------------
+
+Directories
+----------------------------------------
+docs            // various useful manuals and specs used for this project
+framestrip      // a python helper using ffmpeg to strip frames from videos
+rpi_lepton      // c/c++ code for FLiR Lepton on Raspberry Pi 2
+scripts         // utilities
+
+Compiling
+----------------------------------------
+ack ack ack

@@ -2,10 +2,13 @@
 
 numfiles=0
 numfilesnew=0
+scriptdir=$(dirname $0)
+capturedir=$scriptdir"/../rpi_lepton/capture"
+framesdir=$capturedir"/frames"
 
 # wait 1 minute to give user the chance to cancel this script
 echo "Countdown to capture: "
-for i in {10..1}
+for i in {30..1}
 do
 	echo -n $i " "
 	sleep 1
@@ -15,16 +18,16 @@ done
 for i in {1..5000}
 do
 	# 
-	if [ -d ../rpi_lepton/capture/frames ]
+	if [ -d $framesdir ]
 	then
-		numfiles=$(ls -l ../rpi_lepton/capture/frames | wc -l)
+		numfiles=$(ls -l $framesdir | wc -l)
 	fi
 	
 	echo 1 | sudo tee /sys/class/leds/led1/brightness
-	sudo ../rpi_lepton/capture/capture
+	sudo $capturedir"/capture"
 	echo 0 | sudo tee /sys/class/leds/led1/brightness
 	
-	numfilesnew=$(ls -l ../rpi_lepton/capture/frames | wc -l)
+	numfilesnew=$(ls -l $framesdir | wc -l)
 	if (( numfilesnew > numfiles ))
 	then
 		echo "Total captured: " $numfilesnew

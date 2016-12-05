@@ -1,0 +1,3 @@
+
+# convert formats with resize
+mogrify -path visible -format jpg -resize 800x600 original/*.pgm

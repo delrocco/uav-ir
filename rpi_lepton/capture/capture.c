@@ -67,7 +67,7 @@ static void save_pgm_file(char* exepath)
 	char framespath[1024];
 	char imgpath[1024];
 	int imgidx = 0;
-	
+
 	// make sure frames folder exists; create if necessary
 	strcpy(framespath, dirname(exepath));
 	strcat(framespath, "/frames");
@@ -82,10 +82,10 @@ static void save_pgm_file(char* exepath)
 
 	// select next available image name
 	do {
-		
+
 		sprintf(imgpath, "%s/IMG_%.4d.pgm", framespath, imgidx);
 		imgidx += 1;
-		if (imgidx > 9999) 
+		if (imgidx > 9999)
 		{
 			imgidx = 0;
 			break;
@@ -114,12 +114,12 @@ static void save_pgm_file(char* exepath)
 	//		}
 	//	}
 	//}
-	
+
 	maxval = 10000;
 	minval = 6000;
 	//printf("maxval = %u\n",maxval);
 	//printf("minval = %u\n",minval);
-	
+
 	fprintf(f,"P2\n80 60\n%u\n", maxval-minval);
 	for(i=0;i<60;i++)
 	{

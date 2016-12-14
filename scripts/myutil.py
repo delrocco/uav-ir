@@ -20,6 +20,12 @@ def clamp(n, minval, maxval):
     return min(max(n, minval), maxval)
 
 '''
+@summary: Normalize a number between 0-1.
+'''
+def normalize(n, minval, maxval):
+    return float(n-minval)/float(maxval-minval)
+
+'''
 @summary: Helper function delete all files and folders given a folder.
 '''
 def cleanFolder(dirpath):

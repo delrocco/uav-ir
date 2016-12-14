@@ -10,6 +10,8 @@ import logging
 import sys
 import os
 import myutil
+import numpy
+from PIL import Image
 
 
 class PGMHelper(object):
@@ -67,7 +69,22 @@ class PGMHelper(object):
                     self.__scaleFile(srcpath, destpath)
 
     def convert(self):
-        return
+        # handle a single file
+        if os.path.isfile(self.args.input):
+            self.__convertFile(self.args.input, self.args.output)
+
+        # handle a folder
+        else:
+            for filename in os.listdir(self.args.input):
+                if filename.endswith(".pgm"):
+                    srcpath = os.path.join(self.args.input, filename)
+                    destpath = os.path.join(self.args.output, filename)
+                    self.__convertFile(srcpath, destpath)
+
+
+        data = numpy.random.randint(0, 255, (10, 10)).astype(numpy.uint8)
+        im = Image.fromarray(data)
+        im.save('test.tif')
 
     def __isBadData(self, input):
         logging.debug("Testing: " + input)
@@ -97,6 +114,8 @@ class PGMHelper(object):
     def __readActualRange(self, input):
         logging.debug("Reading: " + input)
 
+        currRange = [65536, 1]
+
         with open(input, "r") as file:
             # read magic number
             file.readline()
@@ -105,7 +124,6 @@ class PGMHelper(object):
             # read gray value max range
             line = file.readline()
             fileMaxVal = int(line)
-            currRange = [65536, 1]
             # read each row
             for line in file:
                 values = line.split()
@@ -124,7 +142,7 @@ class PGMHelper(object):
         return currRange
 
     def __scaleFile(self, src, dest):
-        logging.debug("Scale: " + src + " to " + dest)
+        logging.debug("Scaling: " + src + " to " + dest)
 
         # create all directories needed for output file
         if not os.path.exists(os.path.dirname(dest)):
@@ -152,9 +170,50 @@ class PGMHelper(object):
                         # correct values outside bounds of file max gray value - they are considered bad data!
                         values = [myutil.clamp(i, 0, srcFileMaxValue) for i in values]
                         for number in values:
-                            scaled = (number * range) / srcFileMaxValue
+                            scaled = number - self.args.scale[0]
                             destfile.write(str(scaled) + " ")
                     destfile.write("\n")
+
+    def __convertFile(self, src, dest):
+        logging.debug("Converting: " + src + " to " + dest)
+
+        # create all directories needed for output file
+        if not os.path.exists(os.path.dirname(dest)):
+            os.makedirs(os.path.dirname(dest))
+
+        dimensions = []
+        pixeldata = []
+        rangemax = 1
+
+        # open and read the src file
+        with open(src, "r") as srcfile:
+            # magic number
+            srcfile.readline()
+            # dimensions
+            line = srcfile.readline()
+            dimensions = line.split()
+            dimensions = [int(x) for x in dimensions]
+            pixeldata = numpy.zeros((dimensions[1], dimensions[0], 3), dtype=numpy.uint8)
+            # gray value max range
+            rangemax = int(srcfile.readline())
+            # each row
+            for line in srcfile:
+                values = line.split()
+                if len(values) > 0:
+                    # convert strings to numbers and normalize
+                    values = [int(i) for i in values]
+                    values = [myutil.normalize(i, 0, 1) for i in values]
+                    #print values
+                    # for i in range(0, 4): #number in values:
+                    #     #scaled = (number * range) / srcFileMaxValue
+                    #     #destfile.write(str(scaled) + " ")
+                    #     print values[i],
+                    # print '\n'
+
+        # save out new image from pixel data
+        # data[256, 256] = [255, 0, 0]
+        #image = Image.fromarray(pixeldata, 'RGB')
+        #image.save(dest)
 
 '''
 @summary: A safe program shutdown before exit.
@@ -177,7 +236,8 @@ def main():
     parser.add_argument('-b', '--bad', dest='bad', action='store_true', help='find files with bad data')
     parser.add_argument('-r', '--range', dest='range', action='store_true', help='find actual min-max range of values')
     parser.add_argument('-s', '--scale', dest='scale', type=str, help='use min-max range (1-65536)')
-    parser.add_argument('-c', '--convert', dest='convert', type=str, help='to raw (p5), to plain (p2)')
+    parser.add_argument('-f', '--format', dest='format', type=str, help='jpg, tiff, png, etc.')
+    parser.add_argument('-c', '--color', dest='color', type=str, help='grayscale, ironbow, etc.', default="grayscale")
     parser.add_argument('-o', '--output', dest='output', type=str, help='output file or folder')
     args = parser.parse_args()
 
@@ -202,8 +262,8 @@ def main():
     if not os.path.exists(args.input):
         logging.critical("'" + args.input + "' is missing.")
         shutdown(2)
-    elif (args.scale or args.convert) and not args.output:
-        logging.critical("Argument -o required when using -s or -c.")
+    elif (args.scale or args.format) and not args.output:
+        logging.critical("Argument -o required when using -s or -f.")
         shutdown(2)
     elif args.scale:
         range = args.scale.split("-")
@@ -220,11 +280,11 @@ def main():
     #     elif os.path.isdir(args.input) and not os.path.isdir(args.output):
     #         logging.critical("Input and Output args must both be files or directories.")
     #         shutdown(2)
-    elif args.convert:
-        args.convert = args.convert.upper()
-        if args.convert != "P2" and args.convert != "P5":
-            logging.critical("Unrecognized convert argument '" + args.convert + "'.")
-            shutdown(2)
+    # elif args.convert:
+    #     args.convert = args.convert.upper()
+    #     if args.convert != "P2" and args.convert != "P5":
+    #         logging.critical("Unrecognized convert argument '" + args.convert + "'.")
+    #         shutdown(2)
 
     # sanitize inputs
     if args.scale:
@@ -238,10 +298,10 @@ def main():
         pgm.bad()
     elif args.range:
         pgm.range()
-    elif args.convert:
-        pgm.convert()
     elif args.scale:
         pgm.scale()
+    elif args.format:
+        pgm.convert()
 
     logging.shutdown()
     shutdown(0)

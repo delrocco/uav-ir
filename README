@@ -1,5 +1,5 @@
 ----------------------------------------
-MLP-BPNN
+UAV-IR
 ----------------------------------------
 
 Codebase and tools used for a UAV photogrammetric thermography project at IST/UCF.
@@ -10,11 +10,59 @@ HELP
 
 Directories
 ----------------------------------------
-docs            // various useful manuals and specs used for this project
-framestrip      // a python helper using ffmpeg to strip frames from videos
-rpi_lepton      // c/c++ code for FLiR Lepton on Raspberry Pi 2
-scripts         // utilities
+docs             // various useful manuals and specs used for this project
+rpi_lepton       // c/c++ code for FLiR Lepton on Raspberry Pi 2
+  libs           // core libs needed for the following programs to run
+  capture        // c/c++ code to capture a P2v .pgm file from Lepton camera
+  video          // c/c++ code from Pure Engineering for video streaming Lepton
+scripts          // various utilities
+  framestrip.py  // wraps ffmpy for stripping frames from videos
+  processir.sh   // calls scripts below to convert and color .pgm images
+  pgmhelper.py   // various functionality for working with .pgm images
+  visualize.sh   // invokes ImageMagick to convert and scale .pgm images
+  colorize.sh    // invokes ImageMagick with CLUT to color an image
+  autocapture.sh // after 30s countdown, captures frames from Lepton, and blinks RPi LEDs
+  upload.sh      // renames and starts scp upload of frames captured from RPi
+  blowup.bat     // for opening Alien Blow Up from console with multiple images passed in
+
 
 Compiling
 ----------------------------------------
-ack ack ack
+In general, follow the README.md files in each c/c++ program folder.
+
+1) build "libs" with make
+2) build "capture" with make
+3) build "video" with qmake-qt4 && make
+
+With Fedora on the Raspberry Pi 2, we had to use sudo to run these programs.
+
+
+Scripts
+----------------------------------------
+All Python scripts were written in Python 2.7, and display help options with -h.
+Most of the bash shell scripts require arguments to be passed in.
+
+upload.sh and autocapture.sh expect the capture program and resulting frames directory
+to be relative to them in the same directory tree as this repo.
+
+framestrip.py examples:
+framestrip.py -h
+framestrip.py -r 0.5 -s 1980x-1 -o jpg  ~/Desktop/OrlandoScienceCenter/RGB/DJI00220.MP4
+framestripper.py ~/Desktop/south.MP4 -r 1 -s 1024x-1
+
+processir.sh examples:
+processir.sh ~/Desktop/OrlandoScienceCenter/IR/ png 800x600
+processir.sh ~/Desktop/OrlandoScienceCenter/IR/ tiff 1024x768
+
+pgmhelper.py examples:
+pgmhelper.py ~/Desktop/frames/ -b
+pgmhelper.py ~/Desktop/frames/ -b | xargs rm
+pgmhelper.py ~/Desktop/frames/ -r
+pgmhelper.py ~/Desktop/frames/original/ -o ~/Desktop/frames/scaled/ -s 1523-3122
+
+visualize.sh examples:
+visualize.sh ~/Desktop/frames/ ~/Desktop/frames/visible jpg 1024x768
+
+colorize.sh examples:
+colorize.sh ~/Desktop/frames/visible/ ~/Desktop/frames/colored/
+

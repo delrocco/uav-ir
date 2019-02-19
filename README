@@ -34,7 +34,10 @@ In general, follow the README.md files in each c/c++ program folder.
 2) build "capture" with make
 3) build "video" with qmake-qt4 && make
 
-With Fedora on the Raspberry Pi 2, we had to use sudo to run these programs.
+With Fedora on Raspberry Pi 2 and Raspian on Raspberry Pi 3, I had to use sudo to run these programs.
+
+Getting this setup is pretty straightforward.
+The only real problem I had is the "red square of death" with video program, that occurs when it is started. There is much discussion on the Internet, and why this occurs. Some believe it is some kind of synchronization issue at startup. Others say the wiring diagram is incorrect. The only fix I found that worked reliably, was moving the CS wire from pin 26 to pin 24. See here: https://github.com/delrocco/uav-ir/tree/master/docs/gpio_fix.jpg
 
 
 Scripts
